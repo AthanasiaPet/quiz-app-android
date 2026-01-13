@@ -1,6 +1,8 @@
 package org.athan.quizapp;
 
 import android.os.Bundle;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -22,8 +24,19 @@ public class QuizActivity extends AppCompatActivity {
         List<Questions> questions = QuestionsRepository.loadQuestions (this);
         if (!questions.isEmpty ()) {
             Questions firstQuestion = questions.get(0);
+
             TextView textView = findViewById(R.id.textViewQuestion);
             textView.setText(firstQuestion.getText());
+
+            RadioGroup radioGroup = findViewById(R.id.radioGroupOptions);
+            radioGroup.removeAllViews();
+
+            for (int i = 0; i < firstQuestion.getOptions().size(); i++) {
+                RadioButton radioButton = new RadioButton(this);
+                radioButton.setText(firstQuestion.getOptions().get(i));
+                radioGroup.addView(radioButton);
+            }
+
         }
 
         ViewCompat.setOnApplyWindowInsetsListener (findViewById (R.id.main), (v, insets) -> {
