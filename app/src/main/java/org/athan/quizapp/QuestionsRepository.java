@@ -40,8 +40,9 @@ public class QuestionsRepository {
                 }
 
                 int correctIndex = q.getInt("correctIndex");
+                String image = q.optString("image", null);
 
-                questions.add(new Questions(text, options, correctIndex));
+                questions.add(new Questions(text, options, correctIndex, image));
             }
 
         } catch (Exception e) {

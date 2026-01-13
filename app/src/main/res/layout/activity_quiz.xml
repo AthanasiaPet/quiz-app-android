@@ -1,40 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".QuizActivity">
 
+    <ImageView
+        android:id="@+id/imageQuestion"
+        android:layout_width="306dp"
+        android:layout_height="199dp"
+        android:layout_marginStart="73dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="73dp"
+        android:layout_marginBottom="138dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toTopOf="@+id/radioGroupOptions"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/everest" />
+
     <TextView
         android:id="@+id/textViewQuestion"
-        android:layout_width="352dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="204dp"
+        android:layout_width="354dp"
+        android:layout_height="66dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="28dp"
-        android:layout_marginBottom="55dp"
         android:text="Ερώτηση"
         android:textAlignment="center"
         android:textColor="#261F1F"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/radioGroupOptions"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/imageQuestion"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.905" />
 
     <RadioGroup
         android:id="@+id/radioGroupOptions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="221dp"
+        android:layout_marginBottom="404dp"
         android:orientation="vertical"
         android:paddingStart="24dp"
         android:paddingEnd="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/buttonNext"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewQuestion" />
+        app:layout_constraintTop_toBottomOf="@+id/imageQuestion" />
 
     <Button
         android:id="@+id/buttonNext"
@@ -48,5 +65,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroupOptions" />
+        app:layout_constraintTop_toBottomOf="@+id/radioGroupOptions"
+        app:layout_constraintVertical_bias="0.912" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

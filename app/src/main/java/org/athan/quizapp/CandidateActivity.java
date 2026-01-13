@@ -27,14 +27,14 @@ public class CandidateActivity extends AppCompatActivity {
             String surname = editTextSurName.getText ().toString ();
             if (name.isEmpty () || surname.isEmpty ()) {
                 Toast.makeText (
-                        CandidateActivity.this, "Παρακαλώ συμπλήρωσε όνομα και επώνυμο.", Toast.LENGTH_LONG)
+                        CandidateActivity.this, "Παρακαλώ συμπλήρωσε όνομα και επώνυμο.", Toast.LENGTH_SHORT)
                         .show ();
             }
 
             Intent intent = new Intent(CandidateActivity.this, QuizActivity.class);
             startActivity(intent);
         });
-        ViewCompat.setOnApplyWindowInsetsListener (findViewById (R.id.main), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener (findViewById (R.id.imageQuestion), (v, insets) -> {
             Insets systemBars = insets.getInsets (WindowInsetsCompat.Type.systemBars ());
             v.setPadding (systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;

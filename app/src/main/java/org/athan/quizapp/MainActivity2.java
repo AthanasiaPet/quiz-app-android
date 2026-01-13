@@ -3,7 +3,6 @@ package org.athan.quizapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
-import android.content.Intent;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,7 +22,7 @@ public class MainActivity2 extends AppCompatActivity {
             Intent intent = new Intent (MainActivity2.this, CandidateActivity.class);
             startActivity(intent);
         });
-        ViewCompat.setOnApplyWindowInsetsListener (findViewById (R.id.main), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener (findViewById (R.id.imageQuestion), (v, insets) -> {
             Insets systemBars = insets.getInsets (WindowInsetsCompat.Type.systemBars ());
             v.setPadding (systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;

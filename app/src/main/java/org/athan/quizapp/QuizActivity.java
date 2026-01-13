@@ -1,7 +1,9 @@
 package org.athan.quizapp;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -10,8 +12,12 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Collections;
+import android.util.Log;
+
+
 
 
 public class QuizActivity extends AppCompatActivity {
@@ -25,23 +31,31 @@ public class QuizActivity extends AppCompatActivity {
     private TextView textViewQuestion;
     private RadioGroup radioGroupOptions;
     private Button buttonNext;
+    private ImageView imageQuestion;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        android.util.Log.e("QUIZ_FORCE", "ONCREATE STARTED");
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_quiz);
+
+        Log.d("QUIZ_LOG", "after setContentView");
 
 
         textViewQuestion = findViewById(R.id.textViewQuestion);
         radioGroupOptions = findViewById(R.id.radioGroupOptions);
         buttonNext = findViewById(R.id.buttonNext);
+        imageQuestion = findViewById(R.id.imageQuestion);
+        Log.d("QUIZ_LOG", "imageQuestion = " + imageQuestion);
+
 
 
         questions = QuestionsRepository.loadQuestions(this);
         Collections.shuffle (questions);
-        if (questions.size () > 6) {
-            questions = questions.subList (0, 6);
+        if (questions.size() > 6) {
+            questions = new ArrayList<> (questions.subList(0, 6));
         }
 
         if (questions.isEmpty()) {
@@ -85,8 +99,34 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     private void showQuestion(Questions question) {
+        Log.d("QUIZ_LOG", "showQuestion called");
+        Log.d("QUIZ_LOG", "imageQuestion inside showQuestion = " + imageQuestion);
+        Log.d("QUIZ_LOG", "image from question = " + question.getImage());
+
 
         textViewQuestion.setText(question.getText());
+
+        if (question.getImage() != null && !question.getImage().isEmpty()) {
+
+
+            int imageResId = getResources().getIdentifier(
+                    question.getImage(),
+                    "drawable",
+                    getPackageName()
+            );
+
+
+            if (imageResId != 0) {
+                imageQuestion.setImageResource(imageResId);
+                imageQuestion.setVisibility(View.VISIBLE);
+            } else {
+                imageQuestion.setVisibility(View.INVISIBLE);
+            }
+
+        } else {
+            imageQuestion.setVisibility(View.INVISIBLE);
+        }
+
         radioGroupOptions.removeAllViews();
         radioGroupOptions.clearCheck();
         selectedAnswerIndex = -1;
@@ -102,5 +142,7 @@ public class QuizActivity extends AppCompatActivity {
 
 
         }
+
+
     }
 }
