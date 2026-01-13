@@ -1,5 +1,6 @@
 package org.athan.quizapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,6 +30,9 @@ public class CandidateActivity extends AppCompatActivity {
                         CandidateActivity.this, "Παρακαλώ συμπλήρωσε όνομα και επώνυμο.", Toast.LENGTH_LONG)
                         .show ();
             }
+
+            Intent intent = new Intent(CandidateActivity.this, QuizActivity.class);
+            startActivity(intent);
         });
         ViewCompat.setOnApplyWindowInsetsListener (findViewById (R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets (WindowInsetsCompat.Type.systemBars ());
