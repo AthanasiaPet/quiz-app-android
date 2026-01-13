@@ -11,6 +11,8 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.List;
+import java.util.Collections;
+
 
 public class QuizActivity extends AppCompatActivity {
 
@@ -37,6 +39,10 @@ public class QuizActivity extends AppCompatActivity {
 
 
         questions = QuestionsRepository.loadQuestions(this);
+        Collections.shuffle (questions);
+        if (questions.size () > 6) {
+            questions = questions.subList (0, 6);
+        }
 
         if (questions.isEmpty()) {
             textViewQuestion.setText("Δεν υπάρχουν ερωτήσεις");
