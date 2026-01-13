@@ -86,10 +86,15 @@ public class QuizActivity extends AppCompatActivity {
         selectedAnswerIndex = -1;
 
         for (int i = 0; i < question.getOptions().size(); i++) {
+
             RadioButton radioButton = new RadioButton(this);
             radioButton.setText(question.getOptions().get(i));
             radioButton.setId(i);
+            radioButton.setTextSize(18);
+
             radioGroupOptions.addView(radioButton);
+
+
         }
     }
 }

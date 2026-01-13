@@ -25,9 +25,12 @@
 
     <RadioGroup
         android:id="@+id/radioGroupOptions"
-        android:layout_width="78dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="221dp"
+        android:orientation="vertical"
+        android:paddingStart="24dp"
+        android:paddingEnd="16dp"
         app:layout_constraintBottom_toTopOf="@+id/buttonNext"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
