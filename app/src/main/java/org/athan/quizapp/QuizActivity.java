@@ -1,48 +1,95 @@
 package org.athan.quizapp;
 
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import java.util.List;
 
 public class QuizActivity extends AppCompatActivity {
 
+    private int selectedAnswerIndex = -1;
+    private int currentQuestionIndex = 0;
+    private int score = 0;
+
+    private List<Questions> questions;
+
+    private TextView textViewQuestion;
+    private RadioGroup radioGroupOptions;
+    private Button buttonNext;
+
     @Override
-    protected void onCreate (Bundle savedInstanceState) {
-        super.onCreate (savedInstanceState);
-        EdgeToEdge.enable (this);
-        setContentView (R.layout.activity_quiz);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_quiz);
 
-        List<Questions> questions = QuestionsRepository.loadQuestions (this);
-        if (!questions.isEmpty ()) {
-            Questions firstQuestion = questions.get(0);
 
-            TextView textView = findViewById(R.id.textViewQuestion);
-            textView.setText(firstQuestion.getText());
+        textViewQuestion = findViewById(R.id.textViewQuestion);
+        radioGroupOptions = findViewById(R.id.radioGroupOptions);
+        buttonNext = findViewById(R.id.buttonNext);
 
-            RadioGroup radioGroup = findViewById(R.id.radioGroupOptions);
-            radioGroup.removeAllViews();
 
-            for (int i = 0; i < firstQuestion.getOptions().size(); i++) {
-                RadioButton radioButton = new RadioButton(this);
-                radioButton.setText(firstQuestion.getOptions().get(i));
-                radioGroup.addView(radioButton);
-            }
+        questions = QuestionsRepository.loadQuestions(this);
 
+        if (questions.isEmpty()) {
+            textViewQuestion.setText("Δεν υπάρχουν ερωτήσεις");
+            return;
         }
 
-        ViewCompat.setOnApplyWindowInsetsListener (findViewById (R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets (WindowInsetsCompat.Type.systemBars ());
-            v.setPadding (systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
+        // Show First Question
+        showQuestion(questions.get(currentQuestionIndex));
+
+
+        radioGroupOptions.setOnCheckedChangeListener((group, checkedId) -> {
+            selectedAnswerIndex = checkedId;
         });
+
+
+        buttonNext.setOnClickListener(v -> {
+
+            if (selectedAnswerIndex == -1) {
+                Toast.makeText(this, "Διάλεξε απάντηση", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (selectedAnswerIndex ==
+                    questions.get(currentQuestionIndex).getCorrectIndex()) {
+                score++;
+            }
+
+            currentQuestionIndex++;
+
+            if (currentQuestionIndex < questions.size()) {
+                showQuestion(questions.get(currentQuestionIndex));
+            } else {
+                Toast.makeText(
+                        this,
+                        "Τέλος τεστ! Σκορ: " + score + "/" + questions.size(),
+                        Toast.LENGTH_LONG
+                ).show();
+            }
+        });
+    }
+
+    private void showQuestion(Questions question) {
+
+        textViewQuestion.setText(question.getText());
+        radioGroupOptions.removeAllViews();
+        radioGroupOptions.clearCheck();
+        selectedAnswerIndex = -1;
+
+        for (int i = 0; i < question.getOptions().size(); i++) {
+            RadioButton radioButton = new RadioButton(this);
+            radioButton.setText(question.getOptions().get(i));
+            radioButton.setId(i);
+            radioGroupOptions.addView(radioButton);
+        }
     }
 }
