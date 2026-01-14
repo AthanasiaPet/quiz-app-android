@@ -2,6 +2,7 @@ package org.athan.quizapp;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -43,6 +44,8 @@ public class QuizActivity extends AppCompatActivity {
     private CountDownTimer countDownTimer;
     private static final long TOTAL_TIME = 60000;
     private String candidateName;
+    private MediaPlayer tickTockPlayer;
+
 
 
 
@@ -65,6 +68,11 @@ public class QuizActivity extends AppCompatActivity {
 
 
         startTimer();
+        tickTockPlayer = MediaPlayer.create(this, R.raw.tick_tock);
+        tickTockPlayer.setLooping(true);
+        tickTockPlayer.setVolume(0.2f, 0.2f);
+        tickTockPlayer.start();
+
 
 
         questions = QuestionsRepository.loadQuestions(this);
@@ -191,11 +199,28 @@ public class QuizActivity extends AppCompatActivity {
 
         editor.apply();
 
+        if (tickTockPlayer != null) {
+            tickTockPlayer.stop();
+            tickTockPlayer.release();
+            tickTockPlayer = null;
+        }
+
+
         Intent intent = new Intent(QuizActivity.this, ResultActivity.class);
         startActivity(intent);
 
 
         finish();
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (tickTockPlayer != null) {
+            tickTockPlayer.release();
+            tickTockPlayer = null;
+        }
+    }
+
 
 }
