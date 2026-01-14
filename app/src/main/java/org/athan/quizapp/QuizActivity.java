@@ -186,6 +186,8 @@ public class QuizActivity extends AppCompatActivity {
         editor.putString("name", candidateName);
         editor.putInt("score", score);
         editor.putString("time", new SimpleDateFormat ("HH:mm", Locale.getDefault()).format(new Date ()));
+        editor.putInt("total_questions", questions.size());
+
 
         editor.apply();
 

@@ -30,11 +30,12 @@ public class ResultActivity extends AppCompatActivity {
 
         String name = prefs.getString("name", "");
         int score = prefs.getInt("score", 0);
+        int total = prefs.getInt("total_questions", 0);
         String time = prefs.getString("time", "");
 
         textName.setText("Μπράβο, " + name + "!");
-        textScore.setText("Σκορ: " + score);
-        textTime.setText("Ώρα: " + time);
+        textScore.setText("✅ Σκορ: " + score + " / " + total);
+        textTime.setText("✅ Ώρα: " + time);
 
         if (score >= 5) {
             textMessage.setText("🔥 Εξαιρετική επίδοση!");
