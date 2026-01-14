@@ -19,12 +19,15 @@ public class CandidateActivity extends AppCompatActivity {
         super.onCreate (savedInstanceState);
         EdgeToEdge.enable (this);
         setContentView (R.layout.activity_candidate);
+
         EditText editTextName = findViewById(R.id.editTextName);
         EditText editTextSurName = findViewById(R.id.editTextSurname);
         Button buttonStartTest = findViewById(R.id.button2);
+
         buttonStartTest.setOnClickListener (v -> {
             String name = editTextName.getText().toString();
             String surname = editTextSurName.getText ().toString ();
+
             if (name.isEmpty () || surname.isEmpty ()) {
                 Toast.makeText (
                         CandidateActivity.this, "Παρακαλώ συμπλήρωσε όνομα και επώνυμο.", Toast.LENGTH_SHORT)
@@ -32,8 +35,12 @@ public class CandidateActivity extends AppCompatActivity {
             }
 
             Intent intent = new Intent(CandidateActivity.this, QuizActivity.class);
+            intent.putExtra("candidate_name", name);
+            intent.putExtra("candidate_surname", surname);
+
             startActivity(intent);
         });
+
         ViewCompat.setOnApplyWindowInsetsListener (findViewById (R.id.imageQuestion), (v, insets) -> {
             Insets systemBars = insets.getInsets (WindowInsetsCompat.Type.systemBars ());
             v.setPadding (systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);

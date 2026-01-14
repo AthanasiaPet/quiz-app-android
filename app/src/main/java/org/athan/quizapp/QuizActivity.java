@@ -1,6 +1,9 @@
 package org.athan.quizapp;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -12,9 +15,13 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Collections;
+import java.util.Locale;
+
 import android.util.Log;
 
 
@@ -32,6 +39,11 @@ public class QuizActivity extends AppCompatActivity {
     private RadioGroup radioGroupOptions;
     private Button buttonNext;
     private ImageView imageQuestion;
+    private TextView textViewTimer;
+    private CountDownTimer countDownTimer;
+    private static final long TOTAL_TIME = 60000;
+    private String candidateName;
+
 
 
     @Override
@@ -41,15 +53,18 @@ public class QuizActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_quiz);
 
-        Log.d("QUIZ_LOG", "after setContentView");
+
 
 
         textViewQuestion = findViewById(R.id.textViewQuestion);
         radioGroupOptions = findViewById(R.id.radioGroupOptions);
         buttonNext = findViewById(R.id.buttonNext);
         imageQuestion = findViewById(R.id.imageQuestion);
-        Log.d("QUIZ_LOG", "imageQuestion = " + imageQuestion);
+        textViewTimer = findViewById(R.id.textViewTimer);
+        candidateName = getIntent().getStringExtra("candidate_name");
 
+
+        startTimer();
 
 
         questions = QuestionsRepository.loadQuestions(this);
@@ -89,20 +104,14 @@ public class QuizActivity extends AppCompatActivity {
             if (currentQuestionIndex < questions.size()) {
                 showQuestion(questions.get(currentQuestionIndex));
             } else {
-                Toast.makeText(
-                        this,
-                        "Τέλος τεστ! Σκορ: " + score + "/" + questions.size(),
-                        Toast.LENGTH_LONG
-                ).show();
+                finishQuiz ();
             }
+
+
         });
     }
 
     private void showQuestion(Questions question) {
-        Log.d("QUIZ_LOG", "showQuestion called");
-        Log.d("QUIZ_LOG", "imageQuestion inside showQuestion = " + imageQuestion);
-        Log.d("QUIZ_LOG", "image from question = " + question.getImage());
-
 
         textViewQuestion.setText(question.getText());
 
@@ -145,4 +154,46 @@ public class QuizActivity extends AppCompatActivity {
 
 
     }
+
+    private void startTimer() {
+
+        countDownTimer = new CountDownTimer(TOTAL_TIME, 1000) {
+
+            @Override
+            public void onTick(long millisUntilFinished) {
+                long seconds = millisUntilFinished / 1000; //millisecond to seconds
+                textViewTimer.setText("Χρόνος: " + seconds);
+            }
+
+            @Override
+            public void onFinish() {
+                textViewTimer.setText("Τέλος χρόνου!");
+                Toast.makeText(QuizActivity.this,
+                        "Τέλος χρόνου!",
+                        Toast.LENGTH_LONG).show();
+
+                finishQuiz();
+            }
+        };
+
+        countDownTimer.start();
+    }
+
+    private void finishQuiz() {
+        SharedPreferences prefs = getSharedPreferences("quiz_prefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        editor.putString("name", candidateName);
+        editor.putInt("score", score);
+        editor.putString("time", new SimpleDateFormat ("HH:mm", Locale.getDefault()).format(new Date ()));
+
+        editor.apply();
+
+        Intent intent = new Intent(QuizActivity.this, ResultActivity.class);
+        startActivity(intent);
+
+
+        finish();
+    }
+
 }
