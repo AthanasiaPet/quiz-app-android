@@ -49,7 +49,7 @@ The application follows this flow:
 
 ---
 
-## 📂 Question Data
+##  Question Data
 
 Quiz questions are stored in a **JSON file**, including:
 - question text
