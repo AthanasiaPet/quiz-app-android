@@ -2,6 +2,7 @@ package org.athan.quizapp;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
@@ -14,6 +15,9 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class ResultActivity extends AppCompatActivity {
 
+    private MediaPlayer tickTockPlayer;
+
+
     @Override
     protected void onCreate (Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
@@ -25,6 +29,13 @@ public class ResultActivity extends AppCompatActivity {
         TextView textTime = findViewById(R.id.textTime);
         TextView textMessage = findViewById(R.id.textMessage);
         Button buttonRetry = findViewById(R.id.buttonRetry);
+
+        tickTockPlayer = MediaPlayer.create(this, R.raw.results);
+        tickTockPlayer.setVolume(0.2f, 0.2f);
+        tickTockPlayer.start();
+
+
+
 
         SharedPreferences prefs = getSharedPreferences("quiz_prefs", MODE_PRIVATE);
 
