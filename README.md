@@ -1,6 +1,6 @@
 #  Multiple Choice Quiz App (Android)
 
-An Android multiple choice quiz application developed as a semester project for a postgraduate program at the University of Western Attica.  
+An Android multiple choice quiz application developed as a semester project for a postgraduate program at the University of West Attica.  
 The app allows users to take a timed quiz with images, sound effects, and a final results screen.
 
 ---
